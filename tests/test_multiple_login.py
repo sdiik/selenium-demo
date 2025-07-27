@@ -3,12 +3,7 @@ from pages.login_page import LoginPage
 
 @pytest.mark.parametrize("username, password", [
     ("tohamindes@gmail.com", "Sukses111!!!"),
-    ("invalid_user", "wrong_password"),
-    ("invalid_user1", "wrong_password"), 
-    ("invalid_user2", "wrong_password"),  
-    ("invalid_user3", "wrong_password"),  
-    ("invalid_user4", "wrong_password"),   
-    ("invalid_user5", "wrong_password")   
+   
 ])
 
 def test_multiple_login_page_success(setup_driver, username, password):

@@ -1,0 +1,8 @@
+Base URL: https://www.saucedemo.com/
+Login successful
+Menu button is displayed.
+Button 'react-burger-menu-btn' clicked.
+Status aria-hidden pada menu: false
+menu is hidden false
+button logout_sidebar_link logout
+success logout
