@@ -1,34 +1,47 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.10'
+            args '-v /var/run/docker.sock:/var/run/docker.sock -v $WORKSPACE:/app -w /app'
+        }
+    }
 
     environment {
-        PATH = "/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin"
+        PYTHONPATH = "$WORKSPACE"
+    }
+
+    options {
+        timestamps()
     }
 
     stages {
-        stage('Run Tests Inside Docker') {
+        stage('Install Dependencies') {
             steps {
-                sh '''
-                docker pull python:3.10
-                docker run --rm -v "$PWD":/app -w /app python:3.10 sh -c "
-                  pip install -r requirements.txt &&
-                  pytest tests/ --html=report.html
-                "
-                '''
+                sh 'pip install -r requirements.txt'
             }
         }
 
-        stage('Publish HTML Report') {
+        stage('Run Tests') {
             steps {
-                publishHTML (target : [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: '.',
-                    reportFiles: 'report.html',
-                    reportName: "Test Report"
-                ])
+                sh 'pytest tests/ --alluredir=allure-results'
             }
+        }
+
+        stage('Generate Allure Report') {
+            steps {
+                // pastikan plugin Allure diinstall di Jenkins dan konfigurasi commandline-nya benar
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/allure-results/*.json', allowEmptyArchive: true
+            junit 'tests/**/results.xml'
+        }
+        failure {
+            echo "Build failed. Please check the test report and logs."
         }
     }
 }
