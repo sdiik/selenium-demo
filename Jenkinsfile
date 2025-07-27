@@ -1,8 +1,8 @@
 pipeline {
     agent {
-        docker {
-            image 'python:3.10'
-            args '-v /var/run/docker.sock:/var/run/docker.sock -v $WORKSPACE:/app -w /app'
+        dockerfile {
+            filename 'Dockerfile'
+            dir '.'
         }
     }
 
@@ -17,28 +17,40 @@ pipeline {
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                    pip install --no-cache-dir -r requirements.txt
+                '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest tests/ --alluredir=allure-results'
+                sh '''
+                    pytest tests/ \
+                        --alluredir=allure-results \
+                        --junitxml=reports/junit-report.xml
+                '''
             }
         }
 
-        stage('Generate Allure Report') {
+        stage('Publish JUnit Report') {
             steps {
-                // pastikan plugin Allure diinstall di Jenkins dan konfigurasi commandline-nya benar
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+                junit 'reports/junit-report.xml'
+            }
+        }
+
+        stage('Publish Allure Report') {
+            steps {
+                allure includeProperties: false,
+                       jdk: '',
+                       results: [[path: 'allure-results']]
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: '**/allure-results/*.json', allowEmptyArchive: true
-            junit 'tests/**/results.xml'
+            archiveArtifacts artifacts: 'allure-results/*.json', allowEmptyArchive: true
         }
         failure {
             echo "Build failed. Please check the test report and logs."
