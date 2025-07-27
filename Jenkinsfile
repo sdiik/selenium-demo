@@ -1,21 +1,23 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.10'
-        }
+    agent any
+
+    environment {
+        PATH = "/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin"
     }
 
     stages {
-        stage('Install Dependencies') {
+        stage('Run Tests Inside Docker') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh '''
+                docker pull python:3.10
+                docker run --rm -v "$PWD":/app -w /app python:3.10 sh -c "
+                  pip install -r requirements.txt &&
+                  pytest tests/ --html=report.html
+                "
+                '''
             }
         }
-        stage('Run Tests') {
-            steps {
-                sh 'pytest tests/ --html=report.html'
-            }
-        }
+
         stage('Publish HTML Report') {
             steps {
                 publishHTML (target : [
