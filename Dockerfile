@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Set environment path agar selenium bisa akses Chrome & driver
 ENV PATH="/usr/lib/chromium/:$PATH"
 ENV CHROME_BIN="/usr/bin/chromium"
-ENV CHROMEDRIVER_PATH="/usr/lib/chromium/chromedriver"
+ENV CHROMEDRIVER_PATH="/opt/homebrew/bin/chromedriver"
 
 # Setup folder kerja
 WORKDIR /app
