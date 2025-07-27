@@ -53,13 +53,13 @@ jobs:
           pytest tests --maxfail=2 --disable-warnings -v --html=reports/report.html
 
       # if running parallel tests
-      - name: Run test in parallel
-        run: |
-          pytest -n auto --disable-warnings -v \
-            --html=reports/report.html \
-            --self-contained-html \
-            --alluredir=reports/allure-results \
-            --maxfail=2
+     # - name: Run test in parallel
+      #  run: |
+       #   pytest -n auto --disable-warnings -v \
+        #    --html=reports/report.html \
+         #   --self-contained-html \
+          #  --alluredir=reports/allure-results \
+           # --maxfail=2
 
       - name: Generate Allure HTML Report 
         run: |
