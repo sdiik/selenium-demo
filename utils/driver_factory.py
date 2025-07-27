@@ -8,6 +8,6 @@ def create_driver():
         "profile.password_manager_enabled": False
     })
     options.add_argument("--incognito")
-  #  options.add_argument("--headless")
+    options.add_argument("--headless=new")
     driver = webdriver.Chrome(options=options)
     return driver
