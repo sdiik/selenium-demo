@@ -25,12 +25,13 @@ ENV PATH="/usr/lib/chromium/:$PATH"
 # Set display to dummy to enable headless
 ENV DISPLAY=:99
 
-# Install Allure CLI (2.27.0)
+# Install Allure CLI
 RUN curl -Lo allure.tgz https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz \
     && tar -xzf allure.tgz \
-    && mv allure-2.27.0 /opt/allure \
-    && ln -s /opt/allure/bin/allure /usr/bin/allure \
-    && rm -rf allure.tgz
+    && mv allure-2.27.0 /opt/allure-2.27.0 \
+    && chmod +x /opt/allure-2.27.0/bin/allure \
+    && ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure \
+    && rm allure.tgz
 
 # Set workdir
 WORKDIR /app
