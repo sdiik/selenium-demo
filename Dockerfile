@@ -35,3 +35,9 @@ COPY . .
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Allure CLI
+RUN curl -o allure.tgz -L https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz \
+    && tar -xvzf allure.tgz \
+    && mv allure-2.27.0 /opt/allure \
+    && ln -s /opt/allure/bin/allure /usr/bin/allure
