@@ -49,6 +49,9 @@ jobs:
       
       # if running normal tests
       - name: Run Selenium tests
+        env:
+          TESTRAIL_USERNAME: ${{ secrets.TESTRAIL_USERNAME }}
+          TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}
         run: |
           pytest tests --maxfail=2 --disable-warnings -v --html=reports/report.html
 

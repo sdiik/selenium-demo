@@ -6,3 +6,4 @@ pytest-xdist
 allure-pytest
 requests
 python-dotenv
+requests

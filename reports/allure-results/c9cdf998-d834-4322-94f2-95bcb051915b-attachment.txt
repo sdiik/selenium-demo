@@ -1,0 +1,7 @@
+✅ Chrome version: 138.0.7204.184
+✅ Chromedriver version: 138.0.7204.168 (3e8d82e86e9f508e88ed406c2a24657a6c691d30-refs/branch-heads/7204@{#2081})
+Jumlah header 'Home': 0
+❌ Test gagal: Header tidak ditemukan
+assert 0 > 0
+ +  where 0 = len([])
+❌ Gagal update TestRail: {"error":"No (active) test found for the run\/case combination."}
