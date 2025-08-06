@@ -12,6 +12,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      TESTRAIL_URL: ${{ secrets.TESTRAIL_URL }}
+      TESTRAIL_EMAIL: ${{ secrets.TESTRAIL_EMAIL }}
+      TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}
+      TESTRAIL_RUN_ID: ${{ secrets.TESTRAIL_RUN_ID }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -49,9 +55,6 @@ jobs:
       
       # if running normal tests
       - name: Run Selenium tests
-        env:
-          TESTRAIL_USERNAME: ${{ secrets.TESTRAIL_USERNAME }}
-          TESTRAIL_API_KEY: ${{ secrets.TESTRAIL_API_KEY }}
         run: |
           pytest tests --maxfail=2 --disable-warnings -v --html=reports/report.html
 
