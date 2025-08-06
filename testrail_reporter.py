@@ -1,6 +1,12 @@
 # testrail_reporter.py
 import requests
-from testrail_config import TESTRAIL_URL, TESTRAIL_EMAIL, TESTRAIL_API_KEY, TESTRAIL_RUN_ID
+import os
+
+TESTRAIL_URL = os.getenv("TESTRAIL_URL")
+TESTRAIL_EMAIL = os.getenv("TESTRAIL_EMAIL")
+TESTRAIL_API_KEY = os.getenv("TESTRAIL_API_KEY")
+TESTRAIL_RUN_ID = os.getenv("TESTRAIL_RUN_ID")
+
 
 auth = (TESTRAIL_EMAIL, TESTRAIL_API_KEY)
    
