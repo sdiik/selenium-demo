@@ -42,9 +42,8 @@ pipeline {
         stage('Publish Allure Report') {
             steps {
                 allure includeProperties: false,
-                       jdk: '',
-                       results: [[path: 'allure-results']],
-                       commandline: 'allure'
+                    jdk: '',
+                    results: ['allure-results']
             }
         }
     }
