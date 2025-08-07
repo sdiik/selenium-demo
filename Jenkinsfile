@@ -41,19 +41,12 @@ pipeline {
 
         stage('Publish Allure Report') {
             steps {
-                allure includeProperties: false,
-                    jdk: '',
-                    results: ['allure-results']
+                script {
+                    allure([
+                        results: [[path: 'allure-results']]
+                    ])
+                }
             }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: 'allure-results/*.json', allowEmptyArchive: true
-        }
-        failure {
-            echo "Build failed. Please check the test report and logs."
         }
     }
 }
